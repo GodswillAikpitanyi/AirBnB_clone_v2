@@ -11,7 +11,7 @@ Routes:
     /number_template/<num>: Displays an HTML page only if <num> is an integer.
 """
 from flask import Flask
-from flask import abort
+from flask import render_template
 
 app = Flask(__name__)
 
@@ -24,13 +24,16 @@ def hello_hbnb():
 
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
-    """Displays 'HBNB'."""
+    """Displays 'HBNB'"""
     return "HBNB"
 
 
 @app.route("/c/<text>", strict_slashes=False)
 def c(text):
-    """Displays 'C' followed by the value of <text>."""
+    """Displays 'C' followed by the value of <text>.
+
+    Replaces any underscores in <text> with slashes.
+    """
     text = text.replace("_", " ")
     return "C {}".format(text)
 
@@ -51,10 +54,10 @@ def number(n):
     return "{} is a number".format(n)
 
 
-@app.route("/number_template/<int:num>", strict_slashes=False)
-def number_template(num):
+@app.route("/number_template/<int:n>", strict_slashes=False)
+def number_template(n):
     """Displays an HTML page only if <num> is an integer."""
-    return number_template("5-number.html", num)
+    return render_template("5-number.html", n=n)
 
 
 if __name__ == "__main__":
